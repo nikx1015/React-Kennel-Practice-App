@@ -11,6 +11,7 @@ import locationAPIManager from '../modules/LocationManager'
 import AnimalDetail from './animal/AnimalDetail'
 import EmployeeDetail from './employee/EmployeeDetail'
 import OwnerDetail from './owners/OwnerDetail'
+import AnimalForm from './animal/AnimalForm'
 
 
 class ApplicationViews extends Component {
@@ -35,6 +36,15 @@ class ApplicationViews extends Component {
       })
       )
   }
+
+  addAnimal = animalObject =>
+    AnimalAPIManager.postAnimal(animalObject)
+      .then(() => AnimalAPIManager.getAll())
+      .then(animals =>
+        this.setState({
+          animals: animals
+        })
+      );
 
   deleteOwner = id => {
     return fetch(`http://localhost:5002/owners/${id}`, {
@@ -93,7 +103,13 @@ class ApplicationViews extends Component {
           return <LocationList locations={this.state.locations} />
         }} />
         <Route exact path="/animals" render={(props) => {
-          return <AnimalList animals={this.state.animals} />
+          return <AnimalList {...props}
+            animals={this.state.animals} />
+        }} />
+        <Route path="/animals/new" render={(props) => {
+          return <AnimalForm {...props}
+            addAnimal={this.addAnimal}
+            employees={this.state.employees} />
         }} />
         <Route path="/animals/:animalId(\d+)" render={(props) => {
           return <AnimalDetail {...props} deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
