@@ -6,6 +6,17 @@ import { Link } from "react-router-dom";
 class OwnerList extends Component {
     render() {
         return (
+            <React.Fragment>
+                <div className="ownerButton">
+                    <button type="button"
+                        className="btn btn-success"
+                        onClick={() => {
+                            this.props.history.push("/owners/new")
+                        }
+                        }>
+                        Add Owner
+                    </button>
+                </div>
             <section className="owners">
             {
                 this.props.owners.map(owner =>
@@ -21,6 +32,7 @@ class OwnerList extends Component {
                 )
             }
             </section>
+            </React.Fragment>
         )
     }
 }

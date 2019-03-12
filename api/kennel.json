@@ -11,13 +11,15 @@
     {
       "id": 4,
       "name": "Blaise Roberts"
+    },
+    {
+      "name": "Loki",
+      "status": "Full Time",
+      "employeeId": null,
+      "id": 5
     }
   ],
   "animals": [
-    {
-      "id": 1,
-      "name": "Doodles"
-    },
     {
       "id": 3,
       "name": "Angus"
@@ -33,6 +35,12 @@
     {
       "id": 6,
       "name": "Checkers"
+    },
+    {
+      "name": "Odin",
+      "breed": "Floof",
+      "employeeId": 5,
+      "id": 7
     }
   ],
   "owners": [
@@ -57,8 +65,10 @@
       "name": "Michelle"
     },
     {
-      "id": 7,
-      "name": "Josh"
+      "name": "Nyx",
+      "status": "New",
+      "ownerId": null,
+      "id": 7
     }
   ],
   "locations": [
@@ -74,11 +84,6 @@
     }
   ],
   "animalOwners": [
-    {
-      "id": 1,
-      "animalId": 1,
-      "ownerId": 2
-    },
     {
       "id": 3,
       "animalId": 3,

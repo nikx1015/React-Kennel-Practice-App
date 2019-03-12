@@ -6,6 +6,17 @@ import { Link } from "react-router-dom";
 class EmployeeList extends Component {
     render() {
         return (
+            <React.Fragment>
+                <div className="employeeButton">
+                    <button type="button"
+                        className="btn btn-success"
+                        onClick={() => {
+                            this.props.history.push("/employees/new")
+                        }
+                        }>
+                        Add Employees
+                    </button>
+                </div>
             <section className="employees">
             {
                 this.props.employees.map(employee =>
@@ -21,16 +32,7 @@ class EmployeeList extends Component {
                 )
             }
             </section>
-            // <section>
-            //     <h1>Employee List</h1>
-            //     {this.props.employees.map((singleEmployee)=> {
-            //         return <div key={singleEmployee.id}>{singleEmployee.name}
-            //         <a href="#"
-            //                         onClick={() => this.props.deleteEmployee(employee.id)}
-            //                         className="card-link">Delete</a>
-            //     })}
-            //     </div>
-            // </section>
+            </React.Fragment>
         );
     }
 }
