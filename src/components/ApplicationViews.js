@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import React, { Component } from "react"
 import AnimalList from './animal/AnimalList'
 import LocationList from './location/LocationList'
@@ -14,6 +14,9 @@ import OwnerDetail from './owners/OwnerDetail'
 import AnimalForm from './animal/AnimalForm'
 import EmployeeForm from './employee/EmployeeForm'
 import OwnerForm from './owners/OwnerForm'
+import Login from './authentication/Login'
+import Register from './register/Register'
+import AnimalEditForm from './animal/AnimalEditForm'
 
 
 class ApplicationViews extends Component {
@@ -25,7 +28,7 @@ class ApplicationViews extends Component {
     owners: [],
     animalOwners: []
   };
-
+  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
   // deleteAnimal = id => {
   //   return fetch(`http://localhost:5002/animals/${id}`, {
   //     method: "DELETE"
@@ -54,6 +57,16 @@ class ApplicationViews extends Component {
           animals: animals
         })
       );
+
+      updateAnimal = (editedAnimalObject) => {
+        return AnimalAPIManager.put(editedAnimalObject)
+        .then(() => AnimalAPIManager.getAll())
+        .then(animals => {
+          this.setState({
+            animals: animals
+          })
+        });
+      };
 
   deleteOwner = id => {
     return ownerAPIManager.deleteOwner(id).then(owners =>
@@ -114,24 +127,39 @@ class ApplicationViews extends Component {
   render() {
     return (
       <div className="container-div">
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route exact path="/" render={(props) => {
           return <LocationList locations={this.state.locations} />
         }} />
-        <Route exact path="/animals" render={(props) => {
-          return <AnimalList {...props}
-            animals={this.state.animals} />
+        <Route exact path="/animals" render={props => {
+          if (this.isAuthenticated()) {
+            return <AnimalList
+              animals={this.state.animals} />
+          } else {
+            return <Redirect to="/login" />
+          }
         }} />
         <Route path="/animals/new" render={(props) => {
           return <AnimalForm {...props}
             addAnimal={this.addAnimal}
             employees={this.state.employees} />
         }} />
-        <Route path="/animals/:animalId(\d+)" render={(props) => {
+        <Route exact path="/animals/:animalId(\d+)" render={(props) => {
           return <AnimalDetail {...props} deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
         }} />
-        <Route exact path="/employees" render={(props) => {
-          return <EmployeeList {...props}
-            employees={this.state.employees} />
+        <Route
+          path="/animals/:animalId(\d+)/edit" render={props => {
+            return <AnimalEditForm {...props} employees={this.state.employees} updateAnimal={this.updateAnimal} />
+          }}
+        />
+        <Route exact path="/employees" render={props => {
+          if (this.isAuthenticated()) {
+            return <EmployeeList
+              employees={this.state.employees} />
+          } else {
+            return <Redirect to="/login" />
+          }
         }} />
         <Route path="/employees/new" render={(props) => {
           return <EmployeeForm {...props}
@@ -141,9 +169,13 @@ class ApplicationViews extends Component {
         <Route path="/employees/:employeeId(\d+)" render={(props) => {
           return <EmployeeDetail {...props} deleteEmployee={this.deleteEmployee} employees={this.state.employees} />
         }} />
-        <Route exact path="/owners" render={(props) => {
-          return <OwnerList {...props}
-            owners={this.state.owners} />
+        <Route exact path="/owners" render={props => {
+          if (this.isAuthenticated()) {
+            return <OwnerList
+              owners={this.state.owners} />
+          } else {
+            return <Redirect to="/login" />
+          }
         }} />
         <Route path="/owners/new" render={(props) => {
           return <OwnerForm {...props}

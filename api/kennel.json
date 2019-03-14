@@ -30,7 +30,9 @@
     },
     {
       "id": 5,
-      "name": "Derkins"
+      "name": "Derkins",
+      "breed": "Golden Retriever",
+      "employeeId": 3
     },
     {
       "id": 6,
@@ -75,12 +77,16 @@
     {
       "id": 1,
       "name": "Nashville North",
-      "address": "500 Circle Way"
+      "address": "500 Circle Way",
+      "email": "a@a.com",
+      "password": "a"
     },
     {
       "id": 2,
       "name": "Nashville South",
-      "address": "10101 Binary Court"
+      "address": "10101 Binary Court",
+      "email": "b@b.com",
+      "password": "b"
     }
   ],
   "animalOwners": [
